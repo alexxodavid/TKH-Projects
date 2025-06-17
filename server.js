@@ -13,6 +13,10 @@ app.get("/", function (req, res) {
   res.send("Welcome to Chef Marco's Italian Bistro!").end();
 });
 
+app.post("/reservations", (req, res) => {
+  res.status(501).send("Route exists but isn’t implemented yet!");
+});
+
 app.listen(8080, function () {
   console.log("Server is listening on port 8080");
 });
