@@ -10,7 +10,15 @@ const menu = [
 
 app.use(express.json());
 
-app.get("/", function (req, res) {
+const requireChefRole = (req, res, next) => {
+  const role = req.headers.role;
+  if (role !== "chef") {
+    return res.status(403).json({ error: "Only chefs can access this!" });
+  }
+  next();
+};
+
+app.get("/", (req, res) => {
   res.send("Welcome to Chef Marco's Italian Bistro!").end();
 });
 
@@ -42,6 +50,10 @@ app.get("/menu/:menuItem", (req, res) => {
   }
 });
 
-app.listen(8080, function () {
+app.get("/chef/secret-recipe", requireChefRole, (req, res) => {
+  res.json({ "Secret Sauce": "Butter, garlic, parmesan, love, and one drop of espresso." });
+});
+
+app.listen(8080, () => {
   console.log("Server is listening on port 8080");
 });
