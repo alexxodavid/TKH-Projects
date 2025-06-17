@@ -8,12 +8,18 @@ const menu = [
   { id: 4, dish: "Penne with Vodka Sauce", price: 18 }
 ];
 
+app.use(express.json());
+
 app.get("/", function (req, res) {
   res.send("Welcome to Chef Marco's Italian Bistro!").end();
 });
 
 app.post("/reservations", (req, res) => {
-  res.status(501).send("Route exists but isn’t implemented yet!");
+  const { name, date, time } = req.body;
+  if (!name || !date || !time) {
+    return res.status(400).send("Missing name, date, or time");
+  }
+  res.status(201).send(`${name}, thank you for reserving at Chef Marco’s Restaurant on ${date} at ${time}! Your reservation is confirmed`);
 });
 
 app.get("/menu", (req, res) => {
@@ -39,4 +45,3 @@ app.get("/menu/:menuItem", (req, res) => {
 app.listen(8080, function () {
   console.log("Server is listening on port 8080");
 });
-
